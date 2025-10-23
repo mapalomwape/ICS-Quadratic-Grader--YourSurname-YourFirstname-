@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ICS Quadratic Solver & Grade Converter</title>
+</head>
+<body>
+  <h2>Quadratic Equation Solver</h2>
+  <p>Equation: ax² + bx + c = 0</p>
+  <label>a:</label><input id="a" type="number"><br>
+  <label>b:</label><input id="b" type="number"><br>
+  <label>c:</label><input id="c" type="number"><br><br>
+  <button onclick="solve()">Solve</button>
+  <p id="result"></p>
+
+  <h2>Grade Converter</h2>
+  <label>Enter Score (0–100):</label>
+  <input id="score" type="number"><br><br>
+  <button onclick="grade()">Get Grade</button>
+  <p id="gradeResult"></p>
+
+  <script>
+    function solve() {
+      const a = parseFloat(document.getElementById('a').value);
+      const b = parseFloat(document.getElementById('b').value);
+      const c = parseFloat(document.getElementById('c').value);
+      const res = document.getElementById('result');
+      if (isNaN(a) || isNaN(b) || isNaN(c) || a === 0) {
+        res.textContent = "Please enter valid numbers and make sure a ≠ 0.";
+        return;
+      }
+      const D = b*b - 4*a*c;
+      if (D > 0) {
+        const x1 = (-b + Math.sqrt(D)) / (2*a);
+        const x2 = (-b - Math.sqrt(D)) / (2*a);
+        res.textContent = `Discriminant = ${D}. Two real roots: ${x1.toFixed(2)} and ${x2.toFixed(2)}.`;
+      } else if (D === 0) {
+        const x = -b / (2*a);
+        res.textContent = `Discriminant = ${D}. One real root: ${x.toFixed(2)}.`;
+      } else {
+        const real = (-b / (2*a)).toFixed(2);
+        const imag = (Math.sqrt(-D) / (2*a)).toFixed(2);
+        res.textContent = `Discriminant = ${D}. Complex roots: ${real} ± ${imag}i.`;
+      }
+    }
+
+    function grade() {
+      const s = parseInt(document.getElementById('score').value);
+      const r = document.getElementById('gradeResult');
+      if (isNaN(s) || s < 0 || s > 100) {
+        r.textContent = "Please enter a number between 0 and 100.";
+        return;
+      }
+      let g;
+      if (s >= 85) g = "A+";
+      else if (s >= 75) g = "A";
+      else if (s >= 65) g = "B+";
+      else if (s >= 60) g = "B";
+      else if (s >= 55) g = "C+";
+      else if (s >= 50) g = "C";
+      else g = "D";
+      r.textContent = `Your grade is ${g}.`;
+    }
+  </script>
+</body>
+</html>
